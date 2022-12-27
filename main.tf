@@ -232,6 +232,7 @@ resource "aws_lambda_permission" "current_version_triggers" {
   for_each = { for k, v in var.allowed_triggers : k => v if local.create && var.create_function && !var.create_layer && var.create_current_version_allowed_triggers }
 
   function_name = aws_lambda_function.this[0].function_name
+  qualifier     = aws_lambda_function.this[0].version
 
   statement_id       = try(each.value.statement_id, each.key)
   action             = try(each.value.action, "lambda:InvokeFunction")
